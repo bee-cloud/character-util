@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.fxiaoke.common</groupId>
+    <artifactId>java-utils</artifactId>
+    <name>jutil</name>
+    <version>1.0.0-SNAPSHOT</version>
+    <url>http://git.firstshare.cn/JavaCommon/jutil.git</url>
+    <description>gray release tools</description>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:http://git.firstshare.cn/JavaCommon/jutil.git</connection>
+        <developerConnection>scm:git:http://git.firstshare.cn/JavaCommon/jutil.git</developerConnection>
+        <url>http://git.firstshare.cn/JavaCommon/jutil</url>
+    </scm>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <encoding>UTF-8</encoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <guava.version>19.0</guava.version>
+        <junit.version>4.12</junit.version>
+        <jdk.version>1.7</jdk.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <!-- compiler插件, 设定JDK版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <showWarnings>false</showWarnings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <developers>
+        <developer>
+            <name>Li Rui</name>
+            <id>colin-lee</id>
+            <email>colinli (AT) vip.qq.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+    <profiles>
+        <profile>
+            <id>fs</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>fs</id>
+                    <name>fxiaoke-snapshot</name>
+                    <url>http://maven.firstshare.cn/artifactory/libs-snapshot-local</url>
+                </snapshotRepository>
+                <repository>
+                    <id>fs</id>
+                    <name>fxiaoke-release</name>
+                    <url>http://maven.firstshare.cn/artifactory/libs-release-local</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+</project>
