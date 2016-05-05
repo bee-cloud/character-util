@@ -8,7 +8,7 @@ import com.google.common.base.Charsets;
  * Created by lirui on 2016-04-29 17:20.
  */
 public final class PasswordUtil {
-  private final String key = "FS4e2%Y#X@~g.+F<";
+  private static final String key = "FS4e2%Y#X@~g.+F<";
 
   private PasswordUtil() {
   }
