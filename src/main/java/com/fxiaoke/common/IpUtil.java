@@ -1,0 +1,55 @@
+package com.fxiaoke.common;
+
+import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
+import java.util.List;
+
+/**
+ * 获取本机ip信息
+ * Created by lirui on 2016-08-31 13:02.
+ */
+public class IpUtil {
+  private static final Logger LOG = LoggerFactory.getLogger(IpUtil.class);
+  private static final String SERVER_IP;
+
+  static {
+    List<String> ips = getIpV4LocalAddresses();
+    SERVER_IP = ips.isEmpty() ? "127.0.0.1" : ips.get(0);
+  }
+
+  private IpUtil() {
+  }
+
+  public static String getSiteLocalIp() {
+    return SERVER_IP;
+  }
+
+  public static List<String> getIpV4LocalAddresses() {
+    List<String> ips = Lists.newArrayList();
+    try {
+      Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
+      while (e.hasMoreElements()) {
+        NetworkInterface ni = e.nextElement();
+        boolean skip = ni.isLoopback() || ni.isVirtual() || ni.getName().startsWith("docker");
+        if (!skip) {
+          Enumeration<InetAddress> en = ni.getInetAddresses();
+          while (en.hasMoreElements()) {
+            InetAddress net = en.nextElement();
+            String ip = net.getHostAddress();
+            if (ip.indexOf(':') < 0 && net.isSiteLocalAddress()) {
+              ips.add(ip);
+            }
+          }
+        }
+      }
+    } catch (Exception e) {
+      LOG.error("cannot scan ips", e);
+    }
+    return ips;
+  }
+}
