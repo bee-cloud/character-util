@@ -35,18 +35,15 @@ import java.io.*;
 public class SimpleImageInfo {
   private int height;
   private int width;
-  private String mimeType;
+  private String mimeType = "";
 
   private SimpleImageInfo() {
 
   }
 
   public SimpleImageInfo(File file) throws IOException {
-    InputStream is = new FileInputStream(file);
-    try {
+    try (InputStream is = new FileInputStream(file)) {
       processStream(is);
-    } finally {
-      is.close();
     }
   }
 
@@ -55,11 +52,8 @@ public class SimpleImageInfo {
   }
 
   public SimpleImageInfo(byte[] bytes) throws IOException {
-    InputStream is = new ByteArrayInputStream(bytes);
-    try {
+    try (InputStream is = new ByteArrayInputStream(bytes)) {
       processStream(is);
-    } finally {
-      is.close();
     }
   }
 
@@ -134,9 +128,6 @@ public class SimpleImageInfo {
           }
         }
       }
-    }
-    if (mimeType == null) {
-      throw new IOException("Unsupported image type");
     }
   }
 
