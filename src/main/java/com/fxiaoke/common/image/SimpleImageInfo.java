@@ -36,6 +36,7 @@ public class SimpleImageInfo {
   private int height;
   private int width;
   private String mimeType = "";
+  private boolean alpha;
 
   private SimpleImageInfo() {
 
@@ -89,6 +90,9 @@ public class SimpleImageInfo {
       width = readInt(is, 2, true);
       is.skip(2);
       height = readInt(is, 2, true);
+      is.skip(1); // bit depth
+      int colorType = is.read();
+      alpha = colorType > 4;
       mimeType = "image/png";
     } else if (c1 == 66 && c2 == 77) { // BMP
       is.skip(15);
@@ -166,8 +170,16 @@ public class SimpleImageInfo {
     this.mimeType = mimeType;
   }
 
+  public boolean isAlpha() {
+    return alpha;
+  }
+
+  public void setAlpha(boolean alpha) {
+    this.alpha = alpha;
+  }
+
   @Override
   public String toString() {
-    return "MIME Type : " + mimeType + "\t Width : " + width + "\t Height : " + height;
+    return "MIME Type: " + mimeType + "\t Width: " + width + "\t Height: " + height + "\talpha: " + alpha;
   }
 }
