@@ -86,10 +86,9 @@ public class SimpleImageInfo {
         c3 = is.read();
       }
     } else if (c1 == 137 && c2 == 80 && c3 == 78) { // PNG
-      is.skip(15);
-      width = readInt(is, 2, true);
-      is.skip(2);
-      height = readInt(is, 2, true);
+      is.skip(13);
+      width = readInt(is, 4, true);
+      height = readInt(is, 4, true);
       is.skip(1); // bit depth
       int colorType = is.read();
       alpha = colorType > 4;
