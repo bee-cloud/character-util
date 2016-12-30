@@ -70,13 +70,23 @@ public class TEA {
   }
 
   /**
-   * 加密
+   * 随机加密, 某些字节会随机算一些值，这样每次加密，得到的都是不同的字符串
    *
    * @param in 需要进行加密的字节数组
    * @return byte[] 加密后的字节数组
    */
   public byte[] encode(byte[] in) {
     return encode(in, 0, in.length);
+  }
+
+  /**
+   * 固定加密, 多次加密得到的都是同样的字符串
+   *
+   * @param in 需要进行加密的字节数组
+   * @return byte[] 加密后的字节数组
+   */
+  public byte[] encode2(byte[] in) {
+    return encode2(in, 0, in.length);
   }
 
   /**
@@ -115,6 +125,64 @@ public class TEA {
     for (padding = 1; padding <= 2; ) {
       if (pos < 8) {
         plain[pos++] = (byte) (rand() & 0xff);
+        padding++;
+      }
+      if (pos == 8) {
+        encrypt8Bytes();
+      }
+    }
+
+    i = offset;
+    int length = len;
+    while (length > 0) {
+      if (pos < 8) {
+        plain[pos++] = in[i++];
+        length--;
+      }
+      if (pos == 8) {
+        encrypt8Bytes();
+      }
+    }
+    for (padding = 1; padding <= 7; ) {
+      if (pos < 8) {
+        plain[pos++] = 0;
+        padding++;
+      }
+      if (pos == 8) {
+        encrypt8Bytes();
+      }
+    }
+
+    return out;
+  }
+
+  /* 避免每次编码的内容都不同，去掉rand的调用 */
+  private byte[] encode2(byte[] in, int offset, int len) {
+    plain = new byte[8];
+    prePlain = new byte[8];
+    pos = 1;
+    padding = 0;
+    crypt = preCrypt = 0;
+    header = true;
+    pos = (len + 10) % 8;
+    if (pos != 0) {
+      pos = 8 - pos;
+    }
+    out = new byte[len + pos + 10];
+    plain[0] = (byte) (0x17 & 0xf8 | pos);
+    int i;
+    for (i = 1; i <= pos; i++) {
+      plain[i] = (byte) (0x32 & 0xff);
+    }
+
+    pos++;
+    for (i = 0; i < 8; i++) {
+      prePlain[i] = 0;
+    }
+
+    for (padding = 1; padding <= 2; ) {
+      if (pos < 8) {
+        plain[pos++] = (byte) (0xA5 & 0xff);
         padding++;
       }
       if (pos == 8) {
