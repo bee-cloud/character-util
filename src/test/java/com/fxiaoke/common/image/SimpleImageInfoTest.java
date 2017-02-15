@@ -2,8 +2,10 @@ package com.fxiaoke.common.image;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.io.Resources;
+import jdk.nashorn.internal.ir.IfNode;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
@@ -35,6 +37,19 @@ public class SimpleImageInfoTest {
       assertEquals(578, info.getWidth());
       assertEquals(261, info.getHeight());
       assertEquals("image/png", info.getMimeType());
+      assertFalse(info.isAlpha());
+    }
+  }
+
+  @Test
+  public void testGetWebpInfo() throws  Exception {
+    try (InputStream is = Resources.asByteSource(Resources.getResource("aa.webp")).openStream()) {
+      Stopwatch sw = Stopwatch.createStarted();
+      SimpleImageInfo info = new SimpleImageInfo(is);
+      System.out.println("cost: " + sw.elapsed(TimeUnit.MILLISECONDS));
+      assertEquals(640, info.getWidth());
+      assertEquals(426, info.getHeight());
+      assertEquals("image/webp", info.getMimeType());
       assertFalse(info.isAlpha());
     }
   }
