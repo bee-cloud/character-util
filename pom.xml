@@ -96,19 +96,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.athaydes</groupId>
-      <artifactId>spock-reports</artifactId>
-      <version>1.2.13</version>
-      <scope>test</scope>
-      <!-- this avoids affecting your version of Groovy/Spock -->
-      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
       <version>${jsr305.version}</version>
