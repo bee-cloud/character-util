@@ -1,15 +1,17 @@
 package com.fxiaoke.common.crypto;
 
 import com.google.common.base.Strings;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class HexUtil {
-  private static final char[] digits = new char[] {'0', '1', '2', '3', '4',//
+  private final char[] digits = new char[] {'0', '1', '2', '3', '4',//
     '5', '6', '7', '8', '9',//
     'A', 'B', 'C', 'D', 'E',//
     'F'};
-  private static final char[] HEX = "0123456789ABCDEF".toCharArray();
-  private static final byte[] EMPTY_BYTES = new byte[0];
-  private static final int[] CONVERT = new int[128];
+  private final char[] HEX = "0123456789ABCDEF".toCharArray();
+  private final byte[] EMPTY_BYTES = new byte[0];
+  private final int[] CONVERT = new int[128];
 
   static {
     for (int i = 0; i < 128; i++) {
@@ -28,16 +30,13 @@ public class HexUtil {
     }
   }
 
-  private HexUtil() {
-  }
-
   /**
    * 将单个字节转成Hex String
    *
    * @param b 字节
    * @return String Hex String
    */
-  public static String dump(byte b) {
+  public String dump(byte b) {
     char[] buf = new char[2];
     buf[1] = HEX[b & 0xF];
     byte character = (byte) (b >>> 4);
@@ -51,7 +50,7 @@ public class HexUtil {
    * @param bytes 字节数组
    * @return String
    */
-  public static String dump(byte[] bytes) {
+  public String dump(byte[] bytes) {
     if (bytes == null || bytes.length == 0) {
       return null;
     }
@@ -67,11 +66,11 @@ public class HexUtil {
     return new String(buf);
   }
 
-  private static int from(char ch) {
+  private int from(char ch) {
     return ch > 128 ? 0 : CONVERT[ch];
   }
 
-  public static byte[] from(String str) {
+  public byte[] from(String str) {
     if (str == null || str.length() == 0) {
       return EMPTY_BYTES;
     }
@@ -84,7 +83,7 @@ public class HexUtil {
     return bytes;
   }
 
-  public static byte[] hexStr2Bytes(String str) {
+  public byte[] hexStr2Bytes(String str) {
     if (Strings.isNullOrEmpty(str)) {
       return EMPTY_BYTES;
     }
@@ -104,7 +103,7 @@ public class HexUtil {
    * @param ch 字节
    * @return byte
    */
-  public static byte char2Byte(char ch) {
+  public byte char2Byte(char ch) {
     if (ch >= '0' && ch <= '9') {
       return (byte) (ch - '0');
     } else if (ch >= 'a' && ch <= 'f') {
@@ -122,7 +121,7 @@ public class HexUtil {
    * @param bytes 字节数组
    * @return String
    */
-  public static String bytes2HexStr(byte[] bytes) {
+  public String bytes2HexStr(byte[] bytes) {
     if (bytes == null || bytes.length == 0) {
       return null;
     }
@@ -130,7 +129,7 @@ public class HexUtil {
   }
 
 
-  public static String bytes2HexStr(byte[] bytes, int offset, int length) {
+  public String bytes2HexStr(byte[] bytes, int offset, int length) {
     if (bytes == null || bytes.length == 0) {
       return null;
     }
@@ -140,8 +139,7 @@ public class HexUtil {
     }
 
     if (offset + length > bytes.length) {
-      throw new IllegalArgumentException(
-        "offset + length(" + offset + length + ") > bytes.length(" + bytes.length + ")");
+      throw new IllegalArgumentException("offset + length(" + offset + length + ") > bytes.length(" + bytes.length + ")");
     }
 
     char[] buf = new char[2 * length];

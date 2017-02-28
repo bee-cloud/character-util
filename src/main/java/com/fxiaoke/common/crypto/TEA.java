@@ -34,8 +34,9 @@ public class TEA {
    * @param k 密钥,密钥长度必须为16
    */
   public TEA(byte[] k) {
-    if (k == null || k.length != 16)
+    if (k == null || k.length != 16) {
       throw new IllegalArgumentException("Key length must be 16!");
+    }
     header = true;
     key = k;
   }

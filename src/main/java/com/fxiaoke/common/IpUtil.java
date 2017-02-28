@@ -1,8 +1,8 @@
 package com.fxiaoke.common;
 
 import com.google.common.collect.Lists;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -13,8 +13,9 @@ import java.util.List;
  * 获取本机ip信息
  * Created by lirui on 2016-08-31 13:02.
  */
+@Slf4j
+@UtilityClass
 public class IpUtil {
-  private static final Logger LOG = LoggerFactory.getLogger(IpUtil.class);
   private static final String SERVER_IP;
 
   static {
@@ -22,14 +23,11 @@ public class IpUtil {
     SERVER_IP = ips.isEmpty() ? "127.0.0.1" : ips.get(0);
   }
 
-  private IpUtil() {
-  }
-
-  public static String getSiteLocalIp() {
+  public String getSiteLocalIp() {
     return SERVER_IP;
   }
 
-  public static List<String> getIpV4LocalAddresses() {
+  public List<String> getIpV4LocalAddresses() {
     List<String> ips = Lists.newArrayList();
     try {
       Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
@@ -48,7 +46,7 @@ public class IpUtil {
         }
       }
     } catch (Exception e) {
-      LOG.error("cannot scan ips", e);
+      log.error("cannot scan ips", e);
     }
     return ips;
   }

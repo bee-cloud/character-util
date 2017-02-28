@@ -2,10 +2,8 @@ package com.fxiaoke.common.image;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.io.Resources;
-import jdk.nashorn.internal.ir.IfNode;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
@@ -42,7 +40,7 @@ public class SimpleImageInfoTest {
   }
 
   @Test
-  public void testGetWebpInfo() throws  Exception {
+  public void testGetWebpInfo() throws Exception {
     try (InputStream is = Resources.asByteSource(Resources.getResource("aa.webp")).openStream()) {
       Stopwatch sw = Stopwatch.createStarted();
       SimpleImageInfo info = new SimpleImageInfo(is);
